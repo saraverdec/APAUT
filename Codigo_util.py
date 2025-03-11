@@ -56,4 +56,12 @@ sns.pairplot(DF, hue=NOMBRE_COL)
 pca=PCA().fit(X)
 np.cumsum(pca.explained_variance_ratio))
 
-KMeans(n_clusters=N)
+kmeans=KMeans(n_clusters=N)
+kmeans.fit(X)
+kmeans.predict(X)
+kmeans.fit_predict(X)
+
+
+from sklearn.mixture import GaussianMixture as GMM
+gmm = GMM(n_components=4).fit(X)
+gmm.predict(X)
