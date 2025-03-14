@@ -72,9 +72,9 @@ gmm.predict(X)
 
 pca = PCA().fit(X)
 
-var_list=pca.explained_variance_ratio_
+var_list=pca.explained_variance_ratio_.cumsum()
 
 for value in range(len(var_list)):
-    if sum(var_list[:value]) >= 0.99:
-        print(value, sum(var_list[:value]))
+    if var_list[value] >= 0.99:
+        print(value+1, sum(var_list[:value]))
         break
