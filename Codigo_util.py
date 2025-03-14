@@ -40,10 +40,28 @@ pca.components_ #Comoponentes de los vectores de PCA, sobre los que se produce l
 pca.expalined_variance_ #Cuanta varianza explica cada PCA, longitud del vector
 pca.explained_variance_ratio_ #Lo mismo sobre 1
 
+
+##### EMPIEZA AQUÍ
+%matplotlib inline
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns; sns.set()
+
+
 # read the data, 30 features for each record
-data = pd.read_csv('./data/wdbc.csv')
-X = data.values[ :, 2:].astype(float) #Todas las filas, las columnas de la 3 en adelante
-y = (data.values[ :, 1 ] == 'B').astype(int) #Hacemos una parte de un facto, el vector [0/1] codificando para Malign/Benign
+data = pd.read_csv('./data/wdbc.csv', header = None) # La primera fila no es el cabecero
+
+#vemos los datos
+df.shape
+
+df.head()
+
+df.describe
+
+df.dtypes # todos son float 64 menos la primera y la segunda filas
+
+y = (data.values[ :, 1 ] == 'B').astype(int) #transformamos la segunda columna en 0 y 1 en función de si son M o B 
 target_names = np.array([('benign'), ('malign')], dtype=np.dtype('U10')) #Hacemos la otra parte del factor
 X5 = X[ :, 0:5].astype(float) #Se quedan solo con las 5 primeras columnas
 df_cancer = pd.DataFrame(X5) #Hacen el DF
