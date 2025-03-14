@@ -90,26 +90,98 @@ gmm.predict(X)
 #--------------------------------------------------------------------------------
 
 
-data = pd.read_csv('./data/wdbc.csv', header=None)
-df= data.describe()
-data1=data
-print(data,df)
-means=df.loc['mean']
-stds = df.loc['std']
-print(means[2],stds[2])
-for column in range (2, data.shape[1]):
-    data1.iloc[:,column]=(data.iloc[:,column]-means[column])/stds[column]
-print(data1)
+clean_data = data.values[:, 2:].astype(float)
+
+y = (data.values[:,1] == 'B').astype(int)
+
+target_names = np.array([('benign'), ('malign')], dtype = np.dtype('U10'))
+
+clean_data= pd.DataFrame(clean_data)
+
+df = pd.DataFrame(clean_data)
+
+df['target'] = target_names[y]
+
+df
 
 
+clean_data = data.values[:, 2:].astype(float)
+
+clean_data= pd.DataFrame(clean_data)
+
+desc = clean_data.describe()
+means = desc.loc['mean']
+stds = desc.loc['std']
+for column in range (clean_data.shape[1]):
+    clean_data.iloc[:,column]=(clean_data.iloc[:,column]-means[column])/stds[column]
+
+clean_data
 
 
+y = (data.values[:,1] == 'B').astype(int)
 
-pca = PCA().fit(X)
+target_names = np.array([('benign'), ('malign')], dtype = np.dtype('U10'))
+
+df = pd.DataFrame(clean_data)
+
+df['target'] = target_names[y]
+
+df
+
+
+pca = PCA().fit(clean_data)
 
 var_list=pca.explained_variance_ratio_.cumsum()
 
 for value in range(len(var_list)):
     if var_list[value] >= 0.99:
-        print(value+1, sum(var_list[:value]))
+        print(value+1, var_list[value])
         break
+
+
+
+pca=PCA(n_components=17).fit(clean_data).transform(clean_data)
+
+plt.figure()
+
+comp1=0; #first component to visualize, you can modify it
+comp2=1; #second component to visualize, you can modify it
+
+# plot the two components selected above for both malign and benign tumors
+plt.scatter(pca[y == 0, comp1], pca[y == 0, comp2], color='r', alpha=.7, lw=1,
+                label='malign')
+
+plt.scatter(pca[y == 1, comp1], pca [y == 1, comp2], color='g', alpha=.1, lw=1,
+                label='beign')
+
+plt.legend(loc='best', shadow=False, scatterpoints=1)
+plt.title('PCA WDBC dataset')
+
+plt.show()
+
+
+
+kmeans = KMeans(n_clusters=2)
+
+kmeans.fit(clean_data)
+
+y_kmeans = kmeans.predict(clean_data)
+
+cluster = y & y_kmeans
+
+
+plt.scatter(pca[cluster == 1, comp1], pca[cluster == 1, comp2], color='b', alpha=1, lw=1,
+                label='malign')
+
+plt.scatter(pca[cluster == 1, comp1], pca [cluster == 1, comp2], color='b', alpha=.1, lw=1,
+                label='beign')
+
+plt.scatter(pca[y == 0, comp1], pca[y == 0, comp2], color='r', alpha=.1, lw=1,
+                label='malign')
+
+plt.scatter(pca[y == 1, comp1], pca [y == 1, comp2], color='g', alpha=.1, lw=1,
+                label='beign')
+
+target_names_2 = np.array([('M'), ('B')], dtype = np.dtype('U10'))
+
+df['cluster'] = target_names_2[y_kmeans]
