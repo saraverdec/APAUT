@@ -25,7 +25,6 @@ import matplotlib.pyplot as plt
 #Density cambia los valores de absolutos a relativos
 hist = plt.hist(df.NOMBRE_COL, bins = Nº_RECTANGULOS, density = True)
 
-
 #PCA
 plt.scatter(X1, X2, alpha=(0-1, transparencia), color="letra", label="string")
 plt.legend()
@@ -64,4 +63,18 @@ kmeans.fit_predict(X)
 
 from sklearn.mixture import GaussianMixture as GMM
 gmm = GMM(n_components=4).fit(X)
+
 gmm.predict(X)
+
+
+#--------------------------------------------------------------------------------
+
+
+pca = PCA().fit(X)
+
+var_list=pca.explained_variance_ratio_
+
+for value in range(len(var_list)):
+    if sum(var_list[:value]) >= 0.99:
+        print(value, sum(var_list[:value]))
+        break
