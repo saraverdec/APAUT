@@ -90,6 +90,21 @@ gmm.predict(X)
 #--------------------------------------------------------------------------------
 
 
+data = pd.read_csv('./data/wdbc.csv', header=None)
+df= data.describe()
+data1=data
+print(data,df)
+means=df.loc['mean']
+stds = df.loc['std']
+print(means[2],stds[2])
+for column in range (2, data.shape[1]):
+    data1.iloc[:,column]=(data.iloc[:,column]-means[column])/stds[column]
+print(data1)
+
+
+
+
+
 pca = PCA().fit(X)
 
 var_list=pca.explained_variance_ratio_.cumsum()
