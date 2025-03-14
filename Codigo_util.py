@@ -18,6 +18,8 @@ df.types
 #.unique() - returns array of all unique values in that column
 #.value_counts() - returns object containing counts of unique values
 
+
+
 df.NOMBRE_COL.FUNCION()
 
 #Histogramas
@@ -61,7 +63,7 @@ df.describe
 
 df.dtypes # todos son float 64 menos la primera y la segunda filas
 
-y = (data.values[ :, 1 ] == 'B').astype(int) #transformamos la segunda columna en 0 y 1 en función de si son M o B 
+y = (data.values[ :, 1 ] == 'B').astype(int) #transformamos la segunda columna en 0 y 1 en función de si son M o B, respectivamente 
 target_names = np.array([('benign'), ('malign')], dtype=np.dtype('U10')) #Hacemos la otra parte del factor
 X5 = X[ :, 0:5].astype(float) #Se quedan solo con las 5 primeras columnas
 df_cancer = pd.DataFrame(X5) #Hacen el DF
