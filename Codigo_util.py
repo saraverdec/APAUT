@@ -52,7 +52,7 @@ import seaborn as sns; sns.set()
 
 
 # read the data, 30 features for each record
-data = pd.read_csv('./data/wdbc.csv', header = None) # La primera fila no es el cabecero
+df = pd.read_csv('./data/wdbc.csv', header = None) # La primera fila no es el cabecero
 
 #vemos los datos
 df.shape
